@@ -1,30 +1,34 @@
-import fetch  from "node-fetch"
+import fetch from "node-fetch";
 
-interface TwitchApiOptions{
-    clientId: string,
-    authorizationToken: string
-    kraken: boolean | null | undefined
+interface TwitchApiOptions {
+	clientId: string;
+	authorizationToken: string;
+	kraken?: boolean;
 }
 
-interface FetchOptions{
-    method?: string,
-    headers?: object ,
-    body?: string
+interface FetchOptions {
+	method?: string;
+	headers?: object;
+	body?: string;
 }
+
 class TwitchApi {
-    clientId : string
-    authorizationKey: string
+	clientId: string;
+	authorizationKey: string;
+	kraken: boolean;
 	constructor(private options: TwitchApiOptions) {
 		this.clientId = options.clientId;
 		this.authorizationKey = options.authorizationToken;
+		this.kraken = !!options.kraken;
 	}
 
 	get isUnAuthenticated() {
 		return this.clientId == undefined || this.authorizationKey == undefined;
 	}
 
-	async fetch(url : string, fetchOptions: FetchOptions) {
-        const {method, body, headers} = fetchOptions
+	async fetch(url: string, fetchOptions?: FetchOptions) {
+		if (!fetchOptions) fetchOptions = {};
+		const { method, body, headers } = fetchOptions;
 		const options =
 			method == "POST"
 				? {
@@ -43,39 +47,47 @@ class TwitchApi {
 							Authorization: `Bearer ${this.authorizationKey}`,
 							...(headers || {}),
 						},
-				  };
-		const response = await fetch(url, options);
-		const json = await response.json();
-		if (!response.ok) {
-			throw new Error(json.message);
-		}
-		return json;
+                  };
+        try{
+
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            const json = await response.json();
+            return json;
+        }catch(err){
+            // TODO add a better handler
+            throw err
+        }
+		
 	}
 
-	async fetchModChannels(username) {
+	async fetchModChannels(username: string) {
 		let modApiUrl = `https://modlookup.3v.fi/api/user-v3/${username}`;
-		let channels = [];
 		let response = await this.fetch(modApiUrl);
-		channels = [...channels, ...response.channels];
-		while (response.cursor) {
-			modApiUrl = `https://modlookup.3v.fi/api/user-v3/${username}?cursor=${response.cursor}`;
-			response = await this.fetch(modApiUrl);
-			channels = [...channels, ...response.channels];
-		}
+		let channels = response.channels;
+		try {
+			while (response.cursor) {
+				modApiUrl = `https://modlookup.3v.fi/api/user-v3/${username}?cursor=${response.cursor}`;
+				response = await this.fetch(modApiUrl);
+				channels = [...channels, ...response.channels];
+			}
+		} catch (err) {}
 		return channels;
 	}
 
-	async getUserModerationChannels(username, convert = true) {
+	async getUserModerationChannels(username: string, convert?: boolean) {
 		const channels = await this.fetchModChannels(username);
 		if (this.isUnAuthenticated || !convert) {
 			return channels;
 		} else {
-			const ModChannels = await Promise.all(channels.map(async channel => this.getUserInfo(channel.name)));
+			const ModChannels = await Promise.all(channels.map(async (channel: any) => this.getUserInfo(channel.name)));
 			return ModChannels;
 		}
 	}
 
-	async getUserModerators(username) {
+	async getUserModerators(username: string) {
 		const userInfo = await this.getUserInfo(username);
 		const userId = userInfo.id;
 		const apiURL = `https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=${userId}`;
@@ -83,7 +95,7 @@ class TwitchApi {
 		return response.data[0];
 	}
 
-	async getUserInfo(username) {
+	async getUserInfo(username: string) {
 		if (this.isUnAuthenticated) {
 			throw new Error("Missing either your clientId or Authorization Key");
 		}
@@ -94,13 +106,13 @@ class TwitchApi {
 		return response.data[0];
 	}
 
-	async getBadgesByUsername(username) {
+	async getBadgesByUsername(username: string) {
 		const userInfo = await this.getUserInfo(username);
 		const userId = userInfo.id;
 		return this.getBadgesById(userId);
 	}
 
-	async getBadgesById(userId) {
+	async getBadgesById(userId: string) {
 		const customBadgeURL = `https://badges.twitch.tv/v1/badges/channels/${userId}/display`;
 		const response = await this.fetch(customBadgeURL);
 		return response.badge_sets;
