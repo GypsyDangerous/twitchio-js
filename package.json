@@ -28,5 +28,8 @@
   "dependencies": {
     "dot-env": "0.0.1",
     "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.7"
   }
 }
