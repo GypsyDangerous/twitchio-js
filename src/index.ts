@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 
 interface TwitchApiOptions {
 	clientId: string;
-	authorizationToken: string;
+	authorizationKey: string;
 	kraken?: boolean;
 }
 
@@ -18,7 +18,7 @@ class TwitchApi {
 	kraken: boolean;
 	constructor(private options: TwitchApiOptions) {
 		this.clientId = options.clientId;
-		this.authorizationKey = options.authorizationToken;
+		this.authorizationKey = options.authorizationKey;
 		this.kraken = !!options.kraken;
 	}
 

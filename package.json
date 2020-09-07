@@ -30,6 +30,8 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.5.7"
+    "@types/node-fetch": "^2.5.7",
+    "dotenv": "^8.2.0",
+    "jest": "^26.4.2"
   }
 }

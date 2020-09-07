@@ -1,6 +1,7 @@
 /* global describe, it */
 
-const TwitchLib = require("../dist/index.ts");
+const TwitchLib = require("../dist/index.js");
+require("dotenv").config()
 
 const clientId = process.env.ClientId;
 const authorizationKey = process.env.authorizationKey;
@@ -15,18 +16,22 @@ const testApi = new TwitchLib({
 
 
 test("should have the right client id", () => {
-	expect(testApi.clientId).toBeDefined();
+	expect(testApi.clientId).toBe(clientId);
 });
-it("shouldn't be able to get moderators with given token", async function () {
-	const result = await testApi.getUserInfo("514845764");
-	expect(result).toBeDefined();
+
+test("should have the right client id", () => {
+	expect(testApi.authorizationKey).toBe(authorizationKey);
 });
-it("should get moderators properly", async function () {
-	const result = await testApi.getUserModerationChannels("dav1dsnyder404");
-	expect(result).toBeDefined();
-});
-it("should get mod channels properly", async function () {
-	const result = await testApi.fetchModChannels("alca");
-	expect(result).toBeDefined();
-	// expect(result.length).equals(116)
-});
+// it("shouldn't be able to get moderators with given token", async function () {
+// 	const result = await testApi.getUserInfo("514845764");
+// 	expect(result).toBeDefined();
+// });
+// it("should get moderators properly", async function () {
+// 	const result = await testApi.getUserModerationChannels("dav1dsnyder404");
+// 	expect(result).toBeDefined();
+// });
+// it("should get mod channels properly", async function () {
+// 	const result = await testApi.fetchModChannels("alca");
+// 	expect(result).toBeDefined();
+// 	// expect(result.length).equals(116)
+// });
