@@ -1,8 +1,8 @@
 import fetch from "node-fetch";
 
 interface TwitchApiOptions {
-	clientId: string;
-	authorizationKey: string;
+	clientId?: string;
+	authorizationKey?: string;
 	kraken?: boolean;
 }
 
@@ -13,10 +13,13 @@ interface FetchOptions {
 }
 
 class TwitchApi {
-	clientId: string;
-	authorizationKey: string;
-	kraken: boolean;
+	private clientId?: string;
+	private authorizationKey?: string;
+	private kraken: boolean;
 	constructor(private options: TwitchApiOptions) {
+        if(!options){
+            throw new Error("missing options")
+        }
 		this.clientId = options.clientId;
 		this.authorizationKey = options.authorizationKey;
 		this.kraken = !!options.kraken;
@@ -34,7 +37,7 @@ class TwitchApi {
 				? {
 						method: method || "GET",
 						headers: {
-							"Client-ID": this.clientId,
+							"Client-ID": this.clientId || "",
 							Authorization: `Bearer ${this.authorizationKey}`,
 							...(headers || {}),
 						},
@@ -43,7 +46,7 @@ class TwitchApi {
 				: {
 						method: method || "GET",
 						headers: {
-							"Client-ID": this.clientId,
+							"Client-ID": this.clientId || "",
 							Authorization: `Bearer ${this.authorizationKey}`,
 							...(headers || {}),
 						},
