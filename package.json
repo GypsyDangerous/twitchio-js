@@ -1,0 +1,32 @@
+{
+  "name": "twitch-helper",
+  "version": "1.0.0",
+  "description": "A simple twitch api library that makes it easy to interact with kraken, helix, and other endpoints",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "run": "node dist/index.js",
+    "start": "npm-run-all build run",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DisStreamChat/twitch-helper.git"
+  },
+  "keywords": [
+    "twitch",
+    "api",
+    "fetch"
+  ],
+  "author": "David Snyder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DisStreamChat/twitch-helper/issues"
+  },
+  "homepage": "https://github.com/DisStreamChat/twitch-helper#readme",
+  "dependencies": {
+    "dot-env": "0.0.1",
+    "node-fetch": "^2.6.1"
+  }
+}
