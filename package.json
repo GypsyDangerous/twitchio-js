@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/DisStreamChat/twitch-helper#readme",
   "dependencies": {
-    "dot-env": "0.0.1",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
