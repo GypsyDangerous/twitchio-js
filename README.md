@@ -11,3 +11,5 @@ at its most basic this library wraps twitch api credentials with the fetch funct
   - run `npm build` to transpile the typescript
   - run `npm start` to execute the transpiled typescript
   - run `npm test` to run tests on the transpiled typescript
+# Documentation
+Documentation and examples are coming soon and will be in the [documentation](https://github.com/DisStreamChat/twitch-helper/tree/master/documentation) folder
