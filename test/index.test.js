@@ -50,3 +50,21 @@ test("should get full list mod channels properly", async function () {
 	expect(result).toBeDefined();
 	expect(result.length).toBeGreaterThan(99)
 });
+
+test("unauthenticated api should error getting user info", async () => {
+	try{
+		const result = await new TwitchApi({}).getUserInfo("514845764");
+
+	}catch(err){
+		expect(err.message).toBe("Missing either your clientId or Authorization Key")
+	}
+})
+
+test("should properly error when the endpoint fails", async () => {
+	try{
+		await testApi.fetch("https://api.twitch.tv/helix/users?id=514845764")
+		throw new Error("fuck")
+	}catch(err){
+		expect(err.message).toBe("fuck")
+	}
+})
