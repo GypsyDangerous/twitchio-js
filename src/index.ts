@@ -2,7 +2,8 @@ import fetch from "node-fetch";
 
 interface TwitchApiOptions {
 	clientId?: string;
-	authorizationKey?: string;
+    authorizationKey?: string;
+    clientSecret?: string
 	kraken?: boolean;
 }
 
@@ -14,14 +15,16 @@ interface FetchOptions {
 
 class TwitchApi {
 	private clientId?: string;
-	private authorizationKey?: string;
+    private authorizationKey?: string;
+    private clientSecret?: string
 	private kraken: boolean;
 	constructor(private options: TwitchApiOptions) {
         if(!options){
             throw new Error("missing options")
         }
 		this.clientId = options.clientId;
-		this.authorizationKey = options.authorizationKey;
+        this.authorizationKey = options.authorizationKey;
+        this.clientSecret = options.clientSecret
 		this.kraken = !!options.kraken;
 	}
 
@@ -124,7 +127,16 @@ class TwitchApi {
 	async getGlobalBadges() {
 		const globalBadgeResponse = await this.fetch("https://badges.twitch.tv/v1/badges/global/display");
 		return globalBadgeResponse.badge_sets;
-	}
+    }
+    
+    async refreshToken(refreshToken: string, clientSecret?: string) {
+        if(!this.clientId || (!this.clientSecret && !clientSecret)){
+            throw new Error("Missing client id or client secret required to refresh a refresh token")
+        }
+        const apiURL = `https://id.twitch.tv/oauth2/token?client_id=${this.clientId}&client_secret=${this.clientSecret || clientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+        return await this.fetch(apiURL, { method: "POST" });
+    }
+
 }
 
 module.exports = TwitchApi;

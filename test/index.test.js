@@ -50,3 +50,11 @@ test("should get full list mod channels properly", async function () {
 	expect(result).toBeDefined();
 	expect(result.length).toBeGreaterThan(99)
 });
+
+test("should throw an error refreshing a token without a secret", async () => {
+    try{
+        await testApi.refreshToken("token")
+    }catch(err){
+        expect(err.message).toBe("Missing client id or client secret required to refresh a refresh token")
+    }
+})
