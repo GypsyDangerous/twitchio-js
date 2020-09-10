@@ -2,8 +2,8 @@ import fetch from "node-fetch";
 
 interface TwitchApiOptions {
 	clientId?: string;
-    authorizationKey?: string;
-    clientSecret?: string
+	authorizationKey?: string;
+	clientSecret?: string;
 	kraken?: boolean;
 }
 
@@ -13,18 +13,28 @@ interface FetchOptions {
 	body?: string;
 }
 
+interface BTTVEmote {
+	code: string;
+	id: string;
+}
+
+interface FFZEmote {
+	name: string;
+	urls: object;
+}
+
 class TwitchApi {
 	private clientId?: string;
-    private authorizationKey?: string;
-    private clientSecret?: string
+	private authorizationKey?: string;
+	private clientSecret?: string;
 	private kraken: boolean;
 	constructor(private options: TwitchApiOptions) {
-        if(!options){
-            throw new Error("missing options")
-        }
+		if (!options) {
+			throw new Error("missing options");
+		}
 		this.clientId = options.clientId;
-        this.authorizationKey = options.authorizationKey;
-        this.clientSecret = options.clientSecret
+		this.authorizationKey = options.authorizationKey;
+		this.clientSecret = options.clientSecret;
 		this.kraken = !!options.kraken;
 	}
 
@@ -53,20 +63,18 @@ class TwitchApi {
 							Authorization: `Bearer ${this.authorizationKey}`,
 							...(headers || {}),
 						},
-                  };
-        try{
-
-            const response = await fetch(url, options);
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            const json = await response.json();
-            return json;
-        }catch(err){
-            // TODO add a better handler
-            throw err
-        }
-		
+				  };
+		try {
+			const response = await fetch(url, options);
+			if (!response.ok) {
+				throw new Error(response.statusText);
+			}
+			const json = await response.json();
+			return json;
+		} catch (err) {
+			// TODO add a better handler
+			throw err;
+		}
 	}
 
 	async fetchModChannels(username: string) {
@@ -127,16 +135,61 @@ class TwitchApi {
 	async getGlobalBadges() {
 		const globalBadgeResponse = await this.fetch("https://badges.twitch.tv/v1/badges/global/display");
 		return globalBadgeResponse.badge_sets;
-    }
-    
-    async refreshToken(refreshToken: string, clientSecret?: string) {
-        if(!this.clientId || (!this.clientSecret && !clientSecret)){
-            throw new Error("Missing client id or client secret required to refresh a refresh token")
-        }
-        const apiURL = `https://id.twitch.tv/oauth2/token?client_id=${this.clientId}&client_secret=${this.clientSecret || clientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
-        return await this.fetch(apiURL, { method: "POST" });
-    }
+	}
 
+	async refreshToken(refreshToken: string, clientSecret?: string) {
+		if (!this.clientId || (!this.clientSecret && !clientSecret)) {
+			throw new Error("Missing client id or client secret required to refresh a refresh token");
+		}
+		const apiURL = `https://id.twitch.tv/oauth2/token?client_id=${this.clientId}&client_secret=${
+			this.clientSecret || clientSecret
+		}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+		return await this.fetch(apiURL, { method: "POST" });
+	}
+
+	async getBttvEmotes(channelName: string) {
+		const bttvEmotes: any = {};
+		let bttvRegex;
+		const bttvResponse = await fetch("https://api.betterttv.net/2/emotes");
+		let { emotes } = await bttvResponse.json();
+		// replace with your channel url
+		const bttvChannelResponse = await fetch(`https://api.betterttv.net/2/channels/${channelName}`);
+		const { emotes: channelEmotes } = await bttvChannelResponse.json();
+		if (channelEmotes) {
+			emotes = emotes.concat(channelEmotes);
+		}
+		let regexStr = "";
+		emotes.forEach(({ code, id }: BTTVEmote, i: number) => {
+			bttvEmotes[code] = id;
+			regexStr += code.replace(/\(/, "\\(").replace(/\)/, "\\)") + (i === emotes.length - 1 ? "" : "|");
+		});
+		bttvRegex = new RegExp(`(?<=^|\\s)(${regexStr})(?=$|\\s)`, "g");
+
+		return { bttvEmotes, bttvRegex };
+	}
+
+	async getFfzEmotes(channelName: string) {
+		const ffzEmotes: any = {};
+		let ffzRegex;
+
+		const ffzResponse = await fetch("https://api.frankerfacez.com/v1/set/global");
+		// replace with your channel url
+		const ffzChannelResponse = await fetch(`https://api.frankerfacez.com/v1/room/${channelName}`);
+		const { sets } = await ffzResponse.json();
+		const { room, sets: channelSets } = await ffzChannelResponse.json();
+		let regexStr = "";
+		const appendEmotes = ({ name, urls }: FFZEmote, i: number, emotes : object[]) => {
+			ffzEmotes[name] = `https:${Object.values(urls).pop()}`;
+			regexStr += name + (i === emotes.length - 1 ? "" : "|");
+		};
+		sets[3].emoticons.forEach(appendEmotes);
+		if (channelSets && room) {
+			const setnum = room.set;
+			channelSets[setnum].emoticons.forEach(appendEmotes);
+		}
+		ffzRegex = new RegExp(`(?<=^|\\s)(${regexStr})(?=$|\\s)`, "g");
+		return { ffzEmotes, ffzRegex };
+	}
 }
 
 module.exports = TwitchApi;
