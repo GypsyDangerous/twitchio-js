@@ -42,14 +42,14 @@ class TwitchApi {
 		return this.clientId == undefined || this.authorizationKey == undefined;
 	}
 
-    get copy(){
-        return new TwitchApi({
-            clientId : this.clientId, 
-            authorizationKey: this.authorizationKey,
-            clientSecret: this.clientSecret,
-            kraken: this.kraken
-        })
-    }
+	get copy() {
+		return new TwitchApi({
+			clientId: this.clientId,
+			authorizationKey: this.authorizationKey,
+			clientSecret: this.clientSecret,
+			kraken: this.kraken,
+		});
+	}
 
 	async fetch(url: string, fetchOptions?: FetchOptions) {
 		if (!fetchOptions) fetchOptions = {};
@@ -203,6 +203,34 @@ class TwitchApi {
 		const CheerMotes = (await this.fetch(`https://api.twitch.tv/helix/bits/cheermotes${query}`)).data;
 		return CheerMotes;
 	}
+
+	parseEmotes = (message: string, emotes: any) => {
+		const emoteIds = Object.keys(emotes);
+		const emoteStart = emoteIds.reduce((starts: any, id) => {
+			emotes[id].forEach(
+				(startEnd: { split: (arg0: string) => { (): any; new (): any; map: { (arg0: NumberConstructor): [any, any]; new (): any } } }) => {
+					const [start, end] = startEnd.split("-").map(Number);
+					starts[start] = {
+						emoteUrl: `<img src="https://static-cdn.jtvnw.net/emoticons/v1/${id}/3.0" class="emote"`,
+						end: end,
+					};
+				}
+			);
+			return starts;
+		}, {});
+		const parts = Array.from(message);
+		const emoteNames: any = {};
+		let extraCharacters = 0;
+		for (let i = 0; i < parts.length; i++) {
+			const emoteInfo = emoteStart[i];
+			extraCharacters += parts[i].length - 1;
+			if (emoteInfo) {
+				const name: string = message.slice(i + extraCharacters, emoteInfo.end + 1 + extraCharacters);
+				emoteNames[name] = `${emoteInfo.emoteUrl} title="${name}">`;
+			}
+		}
+		return emoteNames;
+	};
 }
 
 module.exports = TwitchApi;
