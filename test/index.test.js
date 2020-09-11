@@ -58,3 +58,14 @@ test("should throw an error refreshing a token without a secret", async () => {
         expect(err.message).toBe("Missing client id or client secret required to refresh a refresh token")
     }
 })
+
+test("should succed at getting cheermotes", async () => {
+    const cheermotes = await testApi.getCheerMotes()
+    expect(cheermotes).toBeDefined()
+})
+
+test("should get custom cheermotes", async () => {
+    const cheermotes = await testApi.getCheerMotes()
+    const customCheermotes = await testApi.getCheerMotes("413856795")
+    expect(customCheermotes.length).toBeGreaterThan(cheermotes.length)
+})
