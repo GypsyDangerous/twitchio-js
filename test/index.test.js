@@ -80,3 +80,9 @@ test("unauthenticated api should error getting user info", async () => {
 	}
 })
 
+test("can fetch from a kraken endpoint", async () => {
+    const copy = testApi.copy
+    copy.kraken = true
+    const result = await copy.fetch("https://api.twitch.tv/kraken/channels/413856795")
+    expect(result).toBeDefined()
+})
