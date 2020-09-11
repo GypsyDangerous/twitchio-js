@@ -51,6 +51,7 @@ test("should get full list mod channels properly", async function () {
 	expect(result.length).toBeGreaterThan(99)
 });
 
+
 test("should throw an error refreshing a token without a secret", async () => {
     try{
         await testApi.refreshToken("token")
@@ -69,3 +70,13 @@ test("should get custom cheermotes", async () => {
     const customCheermotes = await testApi.getCheerMotes("413856795")
     expect(customCheermotes.length).toBeGreaterThan(cheermotes.length)
 })
+
+test("unauthenticated api should error getting user info", async () => {
+	try{
+		const result = await new TwitchApi({}).getUserInfo("514845764");
+
+	}catch(err){
+		expect(err.message).toBe("Missing either your clientId or Authorization Key")
+	}
+})
+

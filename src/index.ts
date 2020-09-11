@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch from "simple-better-fetch";
 
 interface TwitchApiOptions {
 	clientId?: string;
@@ -63,18 +63,15 @@ class TwitchApi {
 							Authorization: `Bearer ${this.authorizationKey}`,
 							...(headers || {}),
 						},
-				  };
-		try {
-			const response = await fetch(url, options);
-			if (!response.ok) {
-				throw new Error(response.statusText);
-			}
-			const json = await response.json();
-			return json;
-		} catch (err) {
-			// TODO add a better handler
-			throw err;
-		}
+                  };
+        try{
+
+            const json = await fetch(url, options);
+            return json;
+        }catch(err){
+            // TODO add a better handler
+            throw err
+        }
 	}
 
 	async fetchModChannels(username: string) {
