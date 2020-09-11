@@ -42,17 +42,27 @@ class TwitchApi {
 		return this.clientId == undefined || this.authorizationKey == undefined;
 	}
 
+    get copy(){
+        return new TwitchApi({
+            clientId : this.clientId, 
+            authorizationKey: this.authorizationKey,
+            clientSecret: this.clientSecret,
+            kraken: this.kraken
+        })
+    }
+
 	async fetch(url: string, fetchOptions?: FetchOptions) {
 		if (!fetchOptions) fetchOptions = {};
 		const { method, body, headers } = fetchOptions;
 		const options =
-			method == "POST"
+			method === "POST"
 				? {
 						method: method || "GET",
 						headers: {
 							"Client-ID": this.clientId || "",
-							Authorization: `Bearer ${this.authorizationKey}`,
+							Authorization: `${this.kraken ? "OAuth" : "Bearer"} ${this.authorizationKey}`,
 							...(headers || {}),
+							...(this.kraken ? { Accept: "application/vnd.twitchtv.v5+json" } : {}),
 						},
 						body: body || "",
 				  }
@@ -60,18 +70,18 @@ class TwitchApi {
 						method: method || "GET",
 						headers: {
 							"Client-ID": this.clientId || "",
-							Authorization: `Bearer ${this.authorizationKey}`,
+							Authorization: `${this.kraken ? "OAuth" : "Bearer"} ${this.authorizationKey}`,
 							...(headers || {}),
+							...(this.kraken ? { Accept: "application/vnd.twitchtv.v5+json" } : {}),
 						},
-                  };
-        try{
-
-            const json = await fetch(url, options);
-            return json;
-        }catch(err){
-            // TODO add a better handler
-            throw err
-        }
+				  };
+		try {
+			const json = await fetch(url, options);
+			return json;
+		} catch (err) {
+			// TODO add a better handler
+			throw err;
+		}
 	}
 
 	async fetchModChannels(username: string) {
@@ -175,7 +185,7 @@ class TwitchApi {
 		const { sets } = await ffzResponse.json();
 		const { room, sets: channelSets } = await ffzChannelResponse.json();
 		let regexStr = "";
-		const appendEmotes = ({ name, urls }: FFZEmote, i: number, emotes : object[]) => {
+		const appendEmotes = ({ name, urls }: FFZEmote, i: number, emotes: object[]) => {
 			ffzEmotes[name] = `https:${Object.values(urls).pop()}`;
 			regexStr += name + (i === emotes.length - 1 ? "" : "|");
 		};
@@ -186,13 +196,13 @@ class TwitchApi {
 		}
 		ffzRegex = new RegExp(`(?<=^|\\s)(${regexStr})(?=$|\\s)`, "g");
 		return { ffzEmotes, ffzRegex };
-    }
-    
-    async getCheerMotes(broadcaster_id?: string){
-        const query = broadcaster_id ? `?broadcaster_id=${broadcaster_id}` : ""
-        const CheerMotes = (await this.fetch(`https://api.twitch.tv/helix/bits/cheermotes${query}`)).data;
-        return CheerMotes
-    }
+	}
+
+	async getCheerMotes(broadcaster_id?: string) {
+		const query = broadcaster_id ? `?broadcaster_id=${broadcaster_id}` : "";
+		const CheerMotes = (await this.fetch(`https://api.twitch.tv/helix/bits/cheermotes${query}`)).data;
+		return CheerMotes;
+	}
 }
 
 module.exports = TwitchApi;
