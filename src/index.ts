@@ -189,7 +189,13 @@ class TwitchApi {
 		}
 		ffzRegex = new RegExp(`(?<=^|\\s)(${regexStr})(?=$|\\s)`, "g");
 		return { ffzEmotes, ffzRegex };
-	}
+    }
+    
+    async getCheerMotes(broadcaster_id?: string){
+        const query = broadcaster_id ? `?broadcaster_id=${broadcaster_id}` : ""
+        const CheerMotes = (await this.fetch(`https://api.twitch.tv/helix/bits/cheermotes${query}`)).data;
+        return CheerMotes
+    }
 }
 
 module.exports = TwitchApi;
