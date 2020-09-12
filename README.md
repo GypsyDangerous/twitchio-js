@@ -1,8 +1,15 @@
 # twitch-helper
-![downloads](https://img.shields.io/npm/dw/twitch-helper) ![npm](https://badge.fury.io/js/twitch-helper.png) ![size](https://img.shields.io/bundlephobia/min/twitch-helper) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![downloads](https://img.shields.io/npm/dw/twitch-helper) ![npm](https://badge.fury.io/js/twitch-helper.png) ![size](https://img.shields.io/bundlephobia/min/twitch-helper) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![GitHub Stars](https://img.shields.io/github/stars/disstreamchat/twitch-helper.svg)](https://github.com/IgorAntun/node-chat/stargazers)
 
 This library provides function that make it easy to do things related to the twitch api including but not limited to the helix api, the kraken api, the bttv api, and the ffz api.
 at its most basic this library wraps twitch api credentials with the fetch function so you don't have to pass them in everytime, but it also has functions that get data from different api endpoints for you with basic inputs.
+
+---
+## Support
+
+This project is a part of DisStreamChat. Whether you use this project, another DisStreamChat project, have learned something from it, or just like it, please consider supporting it by becoming a patreon, so we can dedicate more time on more projects like this 😀.
+
+<a href="https://www.patreon.com/disstreamchat?fan_landing=true" target="_blank"><img src="https://cdn.discordapp.com/attachments/727356806552092675/754198973027319868/Digital-Patreon-Wordmark_FieryCoral.png" alt="Patreon" style="height: auto !important;width: 200px !important;" ></a>
 
 # Documentation
 
