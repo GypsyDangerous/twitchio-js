@@ -1,4 +1,5 @@
 # twitch-helper
+![downloads](https://img.shields.io/npm/dw/twitch-helper) ![npm](https://badge.fury.io/js/twitch-helper.png) ![size](https://img.shields.io/bundlephobia/min/twitch-helper) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This library provides function that make it easy to do things related to the twitch api including but not limited to the helix api, the kraken api, the bttv api, and the ffz api.
 at its most basic this library wraps twitch api credentials with the fetch function so you don't have to pass them in everytime, but it also has functions that get data from different api endpoints for you with basic inputs.
