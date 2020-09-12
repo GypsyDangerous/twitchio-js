@@ -125,6 +125,17 @@ const { ffzEmotes, ffzRegex } = await UnAuthenticatedApiHelper.getFfzEmotes("cod
 const channelsIModerate = await UnAuthenticatedApiHelper.getUserModerationChannels("dav1dsnyder404")
 ```
 
+# Contributing
+
+Found a bug? Want a new feature? Don't like the docs? Please create a pull request or raise an issue.
+
+## Raising issues
+
+When raising an issue, please add as much details as possible. Screenshots, video recordings, or anything else that can make it easier to reproduce the bug you are reporting.
+
+-   A new option is to create a code pen with the code that causes the bug. Fork this [example](https://www.webpackbin.com/bins/-Kxr6IEf5zXSQvGCgKBR) and add your code there, then fork and add the new link to the issue.
+
+
 # Installation
 
 1. clone the repo with `git clone https://github.com/DisStreamChat/twitch-helper.git`
