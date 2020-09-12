@@ -205,4 +205,4 @@ class TwitchApi {
 	}
 }
 
-exports = TwitchApi;
+export = TwitchApi;
