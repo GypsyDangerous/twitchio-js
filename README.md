@@ -107,7 +107,7 @@ const globalBadges = await UnAuthenticatedApiHelper.getGlobalBadges()
 const {bttvEmotes, bttvRegex} = await UnAuthenticatedApiHelper.getBttvEmotes("codinggarden")
 ```
 
-### get ffz emotes for a channel (includes global bttv emotes)
+### get ffz emotes for a channel (includes global ffz emotes)
 ```js
 const { ffzEmotes, ffzRegex } = await UnAuthenticatedApiHelper.getFfzEmotes("codinggarden")
 ```
