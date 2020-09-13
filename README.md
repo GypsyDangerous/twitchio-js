@@ -36,7 +36,7 @@ const userInfo = await ApiHelper.getUserInfo("codinggarden")
 import TwitchHelper from "twich-helper";
 
 const AuthenticatedApiHelper = new TwitchHelper({
-    clientId: process.env.client_id
+    clientId: process.env.client_id,
     authorizationKey: process.env.authorization_key
 })
 ```
