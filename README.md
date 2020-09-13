@@ -20,7 +20,7 @@ This project is a part of DisStreamChat. Whether you use this project, another D
 import TwitchHelper from "twich-helper";
 
 const ApiHelper = new TwitchHelper({
-    clientId: process.env.client_id
+    clientId: process.env.client_id,
     authorizationKey: process.env.authorization_key
 })
 
