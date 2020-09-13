@@ -9,7 +9,7 @@ at its most basic this library wraps twitch api credentials with the fetch funct
 
 This project is a part of DisStreamChat. Whether you use this project, another DisStreamChat project, have learned something from it, or just like it, please consider supporting it by becoming a patreon, so we can dedicate more time on more projects like this 😀.
 
-<a href="https://www.patreon.com/disstreamchat?fan_landing=true" target="_blank"><img src="https://cdn.discordapp.com/attachments/727356806552092675/754198973027319868/Digital-Patreon-Wordmark_FieryCoral.png" alt="Patreon" style="max-width: 100px !important;" ></a>
+<a href="https://www.patreon.com/disstreamchat?fan_landing=true" target="_blank"><img src="https://cdn.discordapp.com/attachments/727356806552092675/754198973027319868/Digital-Patreon-Wordmark_FieryCoral.png" alt="Patreon" width=200 style="max-width: 100px !important;" ></a>
 
 # Documentation
 
