@@ -80,7 +80,7 @@ const refreshData = await copiedAuthenticatedApiHelper.refreshToken("refresh tok
 2. #### input the client secret in the function call
 
 ```js
-const refreshData = await copiedAuthenticatedApiHelper.refreshToken("refresh token", process.env.client_secret);
+const refreshData = await AuthenticatedApiHelper.refreshToken("refresh token", process.env.client_secret);
 ```
 
 ### get cheermotes
