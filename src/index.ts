@@ -227,21 +227,48 @@ class TwitchApi {
 		}
 	}
 
-	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions) {
+	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions) : Promise<userFollows> {
         if (!kraken && !this.kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
         const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : ""
-        const apiURL = `https://api.twitch.tv/kraken/users/${user_id}/follows/channels${options}`;
-        const follows = await this.fetch(`https://api.twitch.tv/kraken/users/${user_id}/emotes`, { kraken: kraken });
-	}
+        const apiURL = `https://api.twitch.tv/kraken/users/${user_id}/follows/channels${urlQuery}`;
+        const follows = await this.fetch(apiURL, { kraken: kraken });
+        return {
+            total: follows["_total"],
+            follows: follows.follows,
+            more: (options.limit || 25) + (options.offset || 0) < follows["_total"]
+        }
+    }
+    
+    async krakenFollowChannel(following_user: string, channel_to_follow: string, kraken?: boolean){
+        if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+        const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_follow}`
+        await this.fetch(apiUrl, {kraken: kraken, method: "PUT"})
+    }
+
+    async krakenUnFollowChannel(following_user: string, channel_to_unfollow: string, kraken?: boolean){
+        if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+        const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_unfollow}`
+        await this.fetch(apiUrl, {kraken: kraken, method: "DELETE"})
+    }
+}
+
+interface userFollows{
+    total: number,
+    follows: any[],
+    more: boolean
 }
 
 interface followsOptions {
-	limit?: number;
+	limit?: number ;
 	offset?: number;
 	direction?: "asc" | "desc";
-	sortby: "created_at" | "last_broadcast" | "login";
+	sortby?: "created_at" | "last_broadcast" | "login";
 }
 
 export = TwitchApi;
