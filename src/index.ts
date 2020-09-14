@@ -11,6 +11,7 @@ interface FetchOptions {
 	method?: string;
 	headers?: object;
 	body?: string;
+	kraken?: boolean;
 }
 
 interface BTTVEmote {
@@ -42,27 +43,28 @@ class TwitchApi {
 		return this.clientId == undefined || this.authorizationKey == undefined;
 	}
 
-    get copy(){
-        return new TwitchApi({
-            clientId : this.clientId, 
-            authorizationKey: this.authorizationKey,
-            clientSecret: this.clientSecret,
-            kraken: this.kraken
-        })
-    }
+	get copy() {
+		return new TwitchApi({
+			clientId: this.clientId,
+			authorizationKey: this.authorizationKey,
+			clientSecret: this.clientSecret,
+			kraken: this.kraken,
+		});
+	}
 
 	async fetch(url: string, fetchOptions?: FetchOptions) {
 		if (!fetchOptions) fetchOptions = {};
-		const { method, body, headers } = fetchOptions;
+		const { method, body, headers, kraken } = fetchOptions;
+		const isKrakenGet = this.kraken || kraken;
 		const options =
 			method === "POST"
 				? {
 						method: method || "GET",
 						headers: {
 							"Client-ID": this.clientId || "",
-							Authorization: `${this.kraken ? "OAuth" : "Bearer"} ${this.authorizationKey}`,
+							Authorization: `${isKrakenGet ? "OAuth" : "Bearer"} ${this.authorizationKey}`,
 							...(headers || {}),
-							...(this.kraken ? { Accept: "application/vnd.twitchtv.v5+json" } : {}),
+							...(isKrakenGet ? { Accept: "application/vnd.twitchtv.v5+json" } : {}),
 						},
 						body: body || "",
 				  }
@@ -70,9 +72,9 @@ class TwitchApi {
 						method: method || "GET",
 						headers: {
 							"Client-ID": this.clientId || "",
-							Authorization: `${this.kraken ? "OAuth" : "Bearer"} ${this.authorizationKey}`,
+							Authorization: `${isKrakenGet ? "OAuth" : "Bearer"} ${this.authorizationKey}`,
 							...(headers || {}),
-							...(this.kraken ? { Accept: "application/vnd.twitchtv.v5+json" } : {}),
+							...(isKrakenGet ? { Accept: "application/vnd.twitchtv.v5+json" } : {}),
 						},
 				  };
 		try {
@@ -203,6 +205,43 @@ class TwitchApi {
 		const CheerMotes = (await this.fetch(`https://api.twitch.tv/helix/bits/cheermotes${query}`)).data;
 		return CheerMotes;
 	}
+
+	// Kraken functions
+	async krakenGetUserById(user_id: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const userInfo = await this.fetch(`https://api.twitch.tv/kraken/users/${user_id}`, { kraken: kraken });
+		return userInfo;
+	}
+
+	async krakenGetUserEmotes(user_id: string, kraken: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const emotes = await this.fetch(`https://api.twitch.tv/kraken/users/${user_id}/emotes`, { kraken: kraken });
+		if (emotes) {
+			return emotes.emoticon_sets;
+		} else {
+			return {};
+		}
+	}
+
+	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions) {
+        if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+        const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : ""
+        const apiURL = `https://api.twitch.tv/kraken/users/${user_id}/follows/channels${options}`;
+        const follows = await this.fetch(`https://api.twitch.tv/kraken/users/${user_id}/emotes`, { kraken: kraken });
+	}
+}
+
+interface followsOptions {
+	limit?: number;
+	offset?: number;
+	direction?: "asc" | "desc";
+	sortby: "created_at" | "last_broadcast" | "login";
 }
 
 export = TwitchApi;
