@@ -9,7 +9,7 @@ at its most basic this library wraps twitch api credentials with the fetch funct
 
 This project is a part of DisStreamChat. Whether you use this project, another DisStreamChat project, have learned something from it, or just like it, please consider supporting it by becoming a patreon, so we can dedicate more time on more projects like this 😀.
 
-<a href="https://www.patreon.com/disstreamchat?fan_landing=true" target="_blank"><img src="https://cdn.discordapp.com/attachments/727356806552092675/754198973027319868/Digital-Patreon-Wordmark_FieryCoral.png" alt="Patreon" style="height: auto !important;width: 200px !important;" ></a>
+<a href="https://www.patreon.com/disstreamchat?fan_landing=true" target="_blank"><img src="https://cdn.discordapp.com/attachments/727356806552092675/754198973027319868/Digital-Patreon-Wordmark_FieryCoral.png" alt="Patreon" width=200 style="max-width: 100px !important;" ></a>
 
 # Documentation
 
@@ -20,7 +20,7 @@ This project is a part of DisStreamChat. Whether you use this project, another D
 import TwitchHelper from "twich-helper";
 
 const ApiHelper = new TwitchHelper({
-    clientId: process.env.client_id
+    clientId: process.env.client_id,
     authorizationKey: process.env.authorization_key
 })
 
@@ -36,7 +36,7 @@ const userInfo = await ApiHelper.getUserInfo("codinggarden")
 import TwitchHelper from "twich-helper";
 
 const AuthenticatedApiHelper = new TwitchHelper({
-    clientId: process.env.client_id
+    clientId: process.env.client_id,
     authorizationKey: process.env.authorization_key
 })
 ```
@@ -80,7 +80,7 @@ const refreshData = await copiedAuthenticatedApiHelper.refreshToken("refresh tok
 2. #### input the client secret in the function call
 
 ```js
-const refreshData = await copiedAuthenticatedApiHelper.refreshToken("refresh token", process.env.client_secret);
+const refreshData = await AuthenticatedApiHelper.refreshToken("refresh token", process.env.client_secret);
 ```
 
 ### get cheermotes
@@ -124,6 +124,17 @@ const { ffzEmotes, ffzRegex } = await UnAuthenticatedApiHelper.getFfzEmotes("cod
 ```js
 const channelsIModerate = await UnAuthenticatedApiHelper.getUserModerationChannels("dav1dsnyder404")
 ```
+
+# Contributing
+
+Found a bug? Want a new feature? Don't like the docs? Please create a pull request or raise an issue.
+
+## Raising issues
+
+When raising an issue, please add as much details as possible. Screenshots, video recordings, or anything else that can make it easier to reproduce the bug you are reporting.
+
+-   A new option is to create a code pen with the code that causes the bug. Fork this [example](https://www.webpackbin.com/bins/-Kxr6IEf5zXSQvGCgKBR) and add your code there, then fork and add the new link to the issue.
+
 
 # Installation
 
