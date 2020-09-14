@@ -256,6 +256,13 @@ class TwitchApi {
         const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_unfollow}`
         await this.fetch(apiUrl, {kraken: kraken, method: "DELETE"})
     }
+
+    async krakenGetUserBlockList(user_id: string, kraken?: boolean){
+        if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+        }
+        
+    }
 }
 
 interface userFollows{
