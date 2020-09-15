@@ -15,21 +15,30 @@
 This library provides function that make it easy to do things related to the twitch api including but not limited to the helix api, the kraken api, the bttv api, and the ffz api.
 at its most basic this library wraps twitch api credentials with the fetch function so you don't have to pass them in everytime, but it also has functions that get data from different api endpoints for you with basic inputs.
 
-# Documentation
+## :zap:  Fast implementation  
+   ### step 1: Paste the following script tag into the head of your HTML document:<br/>
+```JavaScript
+//Install:
+npm i twitchio-js
+
+//Then, paste this at the top of your JavaScript file:
+const TwitchIO = require('twitchio-js');
+```
+   ### step 2: Use any of the commands explained the [Documentation](/Documentation.md) to interact with twitch however you like.
 
 ## basic usage
 
 ```js
 
-import TwitchHelper from "twich-helper";
+const TwitchIO = require('twitchio-js');
 
-const ApiHelper = new TwitchHelper({
+const TwitchApi = new TwitchIO({
     clientId: process.env.client_id,
     authorizationKey: process.env.authorization_key
 })
 
-const cheerMotes = await ApiHelper.getCheerMotes()
-const userInfo = await ApiHelper.getUserInfo("codinggarden")
+const cheerMotes = await TwitchApi.getCheerMotes()
+const userInfo = await TwitchApi.getUserInfo("codinggarden")
 // do something with the cheermotes and user info
 
 ```
