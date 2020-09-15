@@ -1,15 +1,43 @@
-# twitch-helper
-This library provides function that make it easy to do things related to the twitch api including but not limited to the helix api, the kraken api, the bttv api, and the ffz api.
-at its most basic this library wraps twitch api credentials with the fetch function so you don't have to pass them in everytime, but it also has functions that get data from different api endpoints for you with basic inputs.
+<p align="center"><a href="https://github.com/gypsydangerous/twitchio-js"><img src="https://cdn.discordapp.com/attachments/727356806552092675/755515540663173231/logo.svg" alt="logo" height=100/></a></p>
+<h1 align="center">Twitchio.js</h1>
+<p align="center">The easiest way to interact with twitch apis.</p>
 
-# Installation
-1. clone the repo with `git clone https://github.com/DisStreamChat/twitch-helper.git`
-2. cd into the repo with cd twitch-helper
-3. install dependencies with `npm i`
-4. create a `.env` file and add in the variables from the `.env.sample` file
-5. run `npm run build-tests` in order to transpile the typescript and run tests
-  - run `npm build` to transpile the typescript
-  - run `npm start` to execute the transpiled typescript
-  - run `npm test` to run tests on the transpiled typescript
-# Documentation
-Documentation and examples are coming soon and will be in the [documentation](https://github.com/DisStreamChat/twitch-helper/tree/master/documentation) folder
+<p align="center">
+	<a href="https://github.com/GypsyDangerous/twitch-helper"><img src="https://img.shields.io/npm/v/twitchio-js?style=for-the-badge"/></a>
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge"/></a>
+    <img src="https://img.shields.io/bundlephobia/min/twitchio-js@1.0.1?style=for-the-badge"/>
+    <a href="https://github.com/gypsydangerous/twitchio-js/stargazers"><img src="https://img.shields.io/github/stars/gypsydangerous/twitchio-js.svg?style=for-the-badge"/></a>
+	<img src="https://img.shields.io/npm/dw/twitchio-js?style=for-the-badge"/>
+</p>
+<br></br>
+<br></br>
+
+## 🤔 What's this all about?
+Twitchio.js provides functions that make it easy to interact with Twitch API and other twitch related services including but not limited to the helix API, the Kraken API, the BTTV API, and the FFZ API.
+at its most basic Twitchio wraps twitch API credentials with the fetch function so you don't have to pass them in every time, but it also has functions that get data from different API endpoints for you with basic inputs.
+
+## ⚡ Quick and easy implementation  
+   **step 1**:
+```JavaScript
+//Install:
+npm i twitchio-js
+
+//Then, paste this at the top of your JavaScript file:
+const TwitchIO = require("twitchio-js");
+// or
+import TwitchIO from "twitchio-js")
+```
+   **Step 2**: Use any of the commands explained the [Documentation](https://github.com/GypsyDangerous/twitchio-js/blob/master/DOCUMENTATION.md) to interact with twitch services however you like.
+
+## For the Future 
+If you want to **contribute** and make this much better for developers, please have a look at [Contributing Manual](https://github.com/GypsyDangerous/twitchio-js/blob/master/CONTRIBUTING.md) to understand the contribution steps.
+
+If you can help us with these. Please don't hesitate to open a [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
+
+- Adding More functions
+  - functions for kraken endpoints
+  - more functions for helix endpoints
+- Improving the documentation
+
+
+If you created something awesome and want to contribute then feel free to open Please don't hesitate to open an [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
