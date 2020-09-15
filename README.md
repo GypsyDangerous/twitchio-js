@@ -29,7 +29,7 @@ const TwitchIO = require('twitchio-js');
 
 
 ## For the Future 
-If you want to **contribute** and make this much better for developers, pleae have a look at [Contributing Manual](./CONTRIBUTING.md) to understand the contribution steps properly.
+If you want to **contribute** and make this much better for developers, pleae have a look at [Contributing Manual](./CONTRIBUTING.md) to understand the contribution steps.
 
 If you can help us with these. Please don't hesitate to open a [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
 
