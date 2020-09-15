@@ -143,7 +143,7 @@ If you want to **contribute** and make this much better for developers, pleae ha
 
 If you can help us with these. Please don't hesitate to open a [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
 
-- Customisable Color Scheme feature
-- Add More Sections
+- Add More functions
+- Improve the documentation
 
 If you created something awesome and want to contribute then feel free to open Please don't hesitate to open an [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
