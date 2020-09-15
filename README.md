@@ -17,7 +17,7 @@ Twitchio.js provides functions that make it easy to interact with Twitch API and
 at its most basic Twitchio wraps twitch API credentials with the fetch function so you don't have to pass them in every time, but it also has functions that get data from different API endpoints for you with basic inputs.
 
 ## ⚡ Quick and easy implementation  
-   **step 1**: Paste the following script tag into the head of your HTML document:<br/>
+   **step 1**:
 ```JavaScript
 //Install:
 npm i twitchio-js
