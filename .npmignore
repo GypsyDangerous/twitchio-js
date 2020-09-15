@@ -2,3 +2,4 @@ README.md
 jest.config.json
 tsconfig.json
 test/
+src/
