@@ -1,6 +1,6 @@
 {
   "name": "twitchio-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple twitch api library that makes it easy to interact with twitch apis",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,7 +32,7 @@
   "homepage": "https://github.com/Gypsydangerous/twitch-helper#readme",
   "dependencies": {
     "@types/node": "^14.6.4",
-    "simple-better-fetch": "^1.0.5"
+    "simple-better-fetch": "^1.0.8"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
