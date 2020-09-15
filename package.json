@@ -1,7 +1,7 @@
 {
-  "name": "twitch-helper",
-  "version": "1.1.3",
-  "description": "A simple twitch api library that makes it easy to interact with kraken, helix, and other endpoints",
+  "name": "twitchio-js",
+  "version": "1.0.3",
+  "description": "A simple twitch api library that makes it easy to interact with twitch apis",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -15,26 +15,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DisStreamChat/twitch-helper.git"
+    "url": "git+https://github.com/Gypsydangerous/twitch-helper.git"
   },
   "keywords": [
     "twitch",
     "api",
-    "fetch"
+    "fetch",
+    "api-wrapper",
+    "open-source"
   ],
   "author": "David Snyder",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DisStreamChat/twitch-helper/issues"
+    "url": "https://github.com/Gypsydangerous/twitch-helper/issues"
   },
-  "homepage": "https://github.com/DisStreamChat/twitch-helper#readme",
+  "homepage": "https://github.com/Gypsydangerous/twitch-helper#readme",
   "dependencies": {
     "@types/node": "^14.6.4",
-    "node-fetch": "^2.6.1",
-    "simple-better-fetch": "^1.0.3"
+    "simple-better-fetch": "^1.0.8"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.5.7",
     "dotenv": "^8.2.0",
     "jest": "^26.4.2"
   }
