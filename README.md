@@ -24,7 +24,7 @@ npm i twitchio-js
 //Then, paste this at the top of your JavaScript file:
 const TwitchIO = require('twitchio-js');
 ```
-   ### step 2: Use any of the commands explained the [Documentation](/Documentation.md) to interact with twitch however you like.
+   ### step 2: Use any of the commands explained the [Documentation](/DOCUMENTATION.md) to interact with twitch however you like.
 
 ## basic usage
 
