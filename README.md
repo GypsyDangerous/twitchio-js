@@ -3,7 +3,7 @@
 <p align="center">The easiest way to interact with twitch apis.</p>
 
 <p align="center">
-	<a href="https://github.com/GypsyDangerous/twitch-helper"><img src="https://badge.fury.io/js/twitchio-js.png?style=for-the-badge" height="20"/></a>
+	<a href="https://github.com/GypsyDangerous/twitch-helper"><img src="https://img.shields.io/npm/v/twitchio-js?style=for-the-badge" height="20"/></a>
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge"/></a>
     <img src="https://img.shields.io/bundlephobia/min/twitchio-js?style=for-the-badge"/>
     <a href="https://github.com/gypsydangerous/twitchio-js/stargazers"><img src="https://img.shields.io/github/stars/gypsydangerous/twitchio-js.svg?style=for-the-badge"/></a>
