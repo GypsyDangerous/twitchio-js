@@ -5,7 +5,7 @@
 <p align="center">
 	<a href="https://github.com/GypsyDangerous/twitch-helper"><img src="https://img.shields.io/npm/v/twitchio-js?style=for-the-badge"/></a>
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge"/></a>
-    <img src="https://img.shields.io/bundlephobia/min/twitchio-js?style=for-the-badge"/>
+    <img src="https://img.shields.io/bundlephobia/min/twitchio-js@1.0.1?style=for-the-badge"/>
     <a href="https://github.com/gypsydangerous/twitchio-js/stargazers"><img src="https://img.shields.io/github/stars/gypsydangerous/twitchio-js.svg?style=for-the-badge"/></a>
 	<img src="https://img.shields.io/npm/dw/twitchio-js?style=for-the-badge"/>
 </p>
