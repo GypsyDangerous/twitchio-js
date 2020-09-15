@@ -138,25 +138,12 @@ const { ffzEmotes, ffzRegex } = await UnAuthenticatedApiHelper.getFfzEmotes("cod
 const channelsIModerate = await UnAuthenticatedApiHelper.getUserModerationChannels("dav1dsnyder404")
 ```
 
-# Contributing
+## For the Future 
+If you want to **contribute** and make this much better for developers, pleae have a look at [Contributing Manual](./CONTRIBUTING.md) to understand the contribution steps properly.
 
-Found a bug? Want a new feature? Don't like the docs? Please create a pull request or raise an issue.
+If you can help us with these. Please don't hesitate to open a [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
 
-## Raising issues
+- Customisable Color Scheme feature
+- Add More Sections
 
-When raising an issue, please add as much details as possible. Screenshots, video recordings, or anything else that can make it easier to reproduce the bug you are reporting.
-
--   A new option is to create a code pen with the code that causes the bug. Fork this [example](https://www.webpackbin.com/bins/-Kxr6IEf5zXSQvGCgKBR) and add your code there, then fork and add the new link to the issue.
-
-
-# Installation
-
-1. clone the repo with `git clone https://github.com/DisStreamChat/twitch-helper.git`
-2. cd into the repo with cd twitch-helper
-3. install dependencies with `npm i`
-4. create a `.env` file and add in the variables from the `.env.sample` file
-5. run `npm run build-tests` in order to transpile the typescript and run tests
-
--   run `npm build` to transpile the typescript
--   run `npm start` to execute the transpiled typescript
--   run `npm test` to run tests on the transpiled typescript
+If you created something awesome and want to contribute then feel free to open Please don't hesitate to open an [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
