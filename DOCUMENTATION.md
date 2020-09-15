@@ -19,9 +19,9 @@ const userInfo = await TwitchApi.getUserInfo("codinggarden")
 ## Functions that require authentication
 
 ```js
-import TwitchHelper from "twich-helper";
+const TwitchIO = require('twitchio-js');
 
-const AuthenticatedApiHelper = new TwitchHelper({
+const AuthenticatedApiHelper = new TwitchIO({
     clientId: process.env.client_id,
     authorizationKey: process.env.authorization_key
 })
@@ -82,9 +82,9 @@ const customCheermotes = await copiedAuthenticatedApiHelper.getCheerMotes("41385
 ## Functions that do not require authentication
 
 ```js
-import TwitchHelper from "twich-helper";
+const TwitchIO = require('twitchio-js');
 
-const UnAuthenticatedApiHelper = new TwitchHelper({});
+const UnAuthenticatedApiHelper = new TwitchIO({});
 ```
 ### get channel badges by id
 ```js
