@@ -12,7 +12,8 @@
 <br></br>
 <br></br>
 
-This library provides function that make it easy to do things related to the twitch api including but not limited to the helix api, the kraken api, the bttv api, and the ffz api.
+# 🤔 Whats this all about?
+Twitchio.js provides function that make it easy to do things related to the twitch api including but not limited to the helix api, the kraken api, the bttv api, and the ffz api.
 at its most basic this library wraps twitch api credentials with the fetch function so you don't have to pass them in everytime, but it also has functions that get data from different api endpoints for you with basic inputs.
 
 ## :zap:  Fast implementation  
