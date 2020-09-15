@@ -12,28 +12,33 @@
 <br></br>
 <br></br>
 
-# 🤔 Whats this all about?
-Twitchio.js provides function that make it easy to do things related to the twitch api including but not limited to the helix api, the kraken api, the bttv api, and the ffz api.
-at its most basic this library wraps twitch api credentials with the fetch function so you don't have to pass them in everytime, but it also has functions that get data from different api endpoints for you with basic inputs.
+## 🤔 What's this all about?
+Twitchio.js provides functions that make it easy to interact with Twitch API and other twitch related services including but not limited to the helix API, the Kraken API, the BTTV API, and the FFZ API.
+at its most basic Twitchio wraps twitch API credentials with the fetch function so you don't have to pass them in every time, but it also has functions that get data from different API endpoints for you with basic inputs.
 
-## :zap:  Fast implementation  
-   ### step 1: Paste the following script tag into the head of your HTML document:<br/>
+## ⚡ Quick and easy implementation  
+   **step 1**: Paste the following script tag into the head of your HTML document:<br/>
 ```JavaScript
 //Install:
 npm i twitchio-js
 
 //Then, paste this at the top of your JavaScript file:
-const TwitchIO = require('twitchio-js');
+const TwitchIO = require("twitchio-js");
+// or
+import TwitchIO from "twitchio-js")
 ```
-   ### step 2: Use any of the commands explained the [Documentation](/DOCUMENTATION.md) to interact with twitch however you like.
-
+   **Step 2**: Use any of the commands explained the [Documentation](https://github.com/GypsyDangerous/twitchio-js/blob/master/DOCUMENTATION.md) to interact with twitch services however you like.
 
 ## For the Future 
-If you want to **contribute** and make this much better for developers, pleae have a look at [Contributing Manual](./CONTRIBUTING.md) to understand the contribution steps.
+If you want to **contribute** and make this much better for developers, please have a look at [Contributing Manual](https://github.com/GypsyDangerous/twitchio-js/blob/master/CONTRIBUTING.md) to understand the contribution steps.
 
 If you can help us with these. Please don't hesitate to open a [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
 
-- Add More functions
-- Improve the documentation
+- Adding More functions
+ - functions for kraken endpoints
+ - more functions for helix endpoints
+ - 
+- Improving the documentation
+
 
 If you created something awesome and want to contribute then feel free to open Please don't hesitate to open an [pull request](https://github.com/gypsydangerous/twitchio-js/pulls).
