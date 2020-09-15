@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/nastyox/Rando.js#nastyox"><img src="https://cdn.discordapp.com/attachments/727356806552092675/755515540663173231/logo.svg" alt="logo" height=100/></a></p>
+<p align="center"><a href="https://github.com/gypsydangerous/twitchio-js"><img src="https://cdn.discordapp.com/attachments/727356806552092675/755515540663173231/logo.svg" alt="logo" height=100/></a></p>
 <h1 align="center">Twitchio.js</h1>
 <p align="center">The easiest way to interact with twitch apis.</p>
 
