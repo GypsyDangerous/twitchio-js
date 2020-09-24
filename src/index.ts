@@ -215,6 +215,14 @@ class TwitchApi {
 		return userInfo;
 	}
 
+	async krakenGetUsers(names: string[], kraken?: boolean){
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users?login=${names.join(",")}`
+		return await this.fetch(apiUrl, {kraken})
+	}
+
 	async krakenGetUserEmotes(user_id: string, kraken: boolean) {
 		if (!kraken && !this.kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
