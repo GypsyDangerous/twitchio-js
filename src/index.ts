@@ -246,7 +246,7 @@ class TwitchApi {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
         const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_follow}`
-        await this.fetch(apiUrl, {kraken: kraken, method: "PUT"})
+        return await this.fetch(apiUrl, {kraken: kraken, method: "PUT"})
     }
 
     async krakenUnFollowChannel(following_user: string, channel_to_unfollow: string, kraken?: boolean){
@@ -254,15 +254,32 @@ class TwitchApi {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
         const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_unfollow}`
-        await this.fetch(apiUrl, {kraken: kraken, method: "DELETE"})
+        return await this.fetch(apiUrl, {kraken: kraken, method: "DELETE"})
     }
 
     async krakenGetUserBlockList(user_id: string, kraken?: boolean){
         if (!kraken && !this.kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
         }
-        
-    }
+		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks`
+		return await this.fetch(apiUrl, {kraken})
+	}
+	
+	async krakenBlockUser(user_id: string, user_to_block: string, kraken?: boolean){
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks/${user_to_block}`
+		return await this.fetch(apiUrl, {kraken, method: "PUT"})
+	}
+
+	async krakenUnBlockUser(user_id: string, user_to_block: string, kraken?: boolean){
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks/${user_to_block}`
+		return await this.fetch(apiUrl, {kraken, method: "DELETE"})
+	}
 }
 
 interface userFollows{
