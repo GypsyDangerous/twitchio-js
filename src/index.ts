@@ -331,11 +331,35 @@ class TwitchApi {
 		return await this.fetch(`https://api.twitch.tv/kraken/streams/summary${game ? `?game=${game}` : ""}`, { kraken });
 	}
 
-	async krakenGetFeaturedStreams(options: { limit: number; offset: number }, kraken?: boolean) {
+	async krakenGetFeaturedStreams(options: { limit?: number; offset?: number } = {}, kraken?: boolean) {
 		if (!kraken && !this.kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
 		return await this.fetch(`https://api.twitch.tv/kraken/streams/featured?${encodeQuerySting(options)}`, { kraken });
+	}
+
+	async krakenSearchChannels(query: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/search/channels?query=${encodeURIComponent(query)}`;
+		return await this.fetch(apiUrl);
+	}
+
+	async krakenSearchGames(query: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/search/games?query=${encodeURIComponent(query)}`;
+		return await this.fetch(apiUrl);
+	}
+
+	async krakenSearchStreams(query: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/search/streams?query=${encodeURIComponent(query)}`;
+		return await this.fetch(apiUrl);
 	}
 }
 
