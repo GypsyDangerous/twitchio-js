@@ -24,6 +24,12 @@ interface FFZEmote {
 	urls: object;
 }
 
+const encodeQuerySting = (params: any) => {
+	return Object.keys(params)
+		.map(key => `${key}=${params[key]}`)
+		.join("&");
+};
+
 class TwitchApi {
 	private clientId?: string;
 	private authorizationKey?: string;
@@ -215,12 +221,12 @@ class TwitchApi {
 		return userInfo;
 	}
 
-	async krakenGetUsers(names: string[], kraken?: boolean){
+	async krakenGetUsers(names: string[], kraken?: boolean) {
 		if (!kraken && !this.kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
-		const apiUrl = `https://api.twitch.tv/kraken/users?login=${names.join(",")}`
-		return await this.fetch(apiUrl, {kraken})
+		const apiUrl = `https://api.twitch.tv/kraken/users?login=${names.join(",")}`;
+		return await this.fetch(apiUrl, { kraken });
 	}
 
 	async krakenGetUserEmotes(user_id: string, kraken: boolean) {
@@ -235,69 +241,121 @@ class TwitchApi {
 		}
 	}
 
-	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions) : Promise<userFollows> {
-        if (!kraken && !this.kraken) {
-			throw new Error("Kraken must be enable to access this endpoint");
-		}
-        const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : ""
-        const apiURL = `https://api.twitch.tv/kraken/users/${user_id}/follows/channels${urlQuery}`;
-        const follows = await this.fetch(apiURL, { kraken: kraken });
-        return {
-            total: follows["_total"],
-            follows: follows.follows,
-            more: (options.limit || 25) + (options.offset || 0) < follows["_total"]
-        }
-    }
-    
-    async krakenFollowChannel(following_user: string, channel_to_follow: string, kraken?: boolean){
-        if (!kraken && !this.kraken) {
-			throw new Error("Kraken must be enable to access this endpoint");
-		}
-        const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_follow}`
-        return await this.fetch(apiUrl, {kraken: kraken, method: "PUT"})
-    }
-
-    async krakenUnFollowChannel(following_user: string, channel_to_unfollow: string, kraken?: boolean){
-        if (!kraken && !this.kraken) {
-			throw new Error("Kraken must be enable to access this endpoint");
-		}
-        const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_unfollow}`
-        return await this.fetch(apiUrl, {kraken: kraken, method: "DELETE"})
-    }
-
-    async krakenGetUserBlockList(user_id: string, kraken?: boolean){
-        if (!kraken && !this.kraken) {
-			throw new Error("Kraken must be enable to access this endpoint");
-        }
-		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks`
-		return await this.fetch(apiUrl, {kraken})
-	}
-	
-	async krakenBlockUser(user_id: string, user_to_block: string, kraken?: boolean){
+	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions): Promise<userFollows> {
 		if (!kraken && !this.kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
-		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks/${user_to_block}`
-		return await this.fetch(apiUrl, {kraken, method: "PUT"})
+		const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : "";
+		const apiURL = `https://api.twitch.tv/kraken/users/${user_id}/follows/channels${urlQuery}`;
+		const follows = await this.fetch(apiURL, { kraken: kraken });
+		return {
+			total: follows["_total"],
+			follows: follows.follows,
+			more: (options.limit || 25) + (options.offset || 0) < follows["_total"],
+		};
 	}
 
-	async krakenUnBlockUser(user_id: string, user_to_block: string, kraken?: boolean){
+	async krakenFollowChannel(following_user: string, channel_to_follow: string, kraken?: boolean) {
 		if (!kraken && !this.kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
-		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks/${user_to_block}`
-		return await this.fetch(apiUrl, {kraken, method: "DELETE"})
+		const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_follow}`;
+		return await this.fetch(apiUrl, { kraken: kraken, method: "PUT" });
+	}
+
+	async krakenUnFollowChannel(following_user: string, channel_to_unfollow: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_unfollow}`;
+		return await this.fetch(apiUrl, { kraken: kraken, method: "DELETE" });
+	}
+
+	async krakenGetUserBlockList(user_id: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks`;
+		return await this.fetch(apiUrl, { kraken });
+	}
+
+	async krakenBlockUser(user_id: string, user_to_block: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks/${user_to_block}`;
+		return await this.fetch(apiUrl, { kraken, method: "PUT" });
+	}
+
+	async krakenUnBlockUser(user_id: string, user_to_block: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks/${user_to_block}`;
+		return await this.fetch(apiUrl, { kraken, method: "DELETE" });
+	}
+
+	async krakenGetTeams(kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		return await this.fetch(`https://api.twitch.tv/kraken/teams`, { kraken });
+	}
+
+	async krakenGetTeamByName(team_name: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		return await this.fetch(`https://api.twitch.tv/kraken/teams/${team_name}`, { kraken });
+	}
+
+	async krakenGetStreamByUser(user_id: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/streams/${user_id}`;
+		return await this.fetch(apiUrl, { kraken });
+	}
+
+	async krakenGetStreams(options: StreamsOptions = {}, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		return await this.fetch(`https://api.twitch.tv/kraken/streams/?${encodeQuerySting(options)}`, { kraken });
+	}
+
+	async krakenGetStreamSummaries(game?: string, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		return await this.fetch(`https://api.twitch.tv/kraken/streams/summary${game ? `?game=${game}` : ""}`, { kraken });
+	}
+
+	async krakenGetFeaturedStreams(options: { limit: number; offset: number }, kraken?: boolean) {
+		if (!kraken && !this.kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		return await this.fetch(`https://api.twitch.tv/kraken/streams/featured?${encodeQuerySting(options)}`, { kraken });
 	}
 }
 
-interface userFollows{
-    total: number,
-    follows: any[],
-    more: boolean
+interface StreamsOptions {
+	channels?: string[];
+	game?: string;
+	language?: string;
+	stream_type?: string;
+	limit?: number;
+	offset?: number;
+}
+
+interface userFollows {
+	total: number;
+	follows: any[];
+	more: boolean;
 }
 
 interface followsOptions {
-	limit?: number ;
+	limit?: number;
 	offset?: number;
 	direction?: "asc" | "desc";
 	sortby?: "created_at" | "last_broadcast" | "login";
