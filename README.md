@@ -25,7 +25,7 @@ npm i twitchio-js
 //Then, paste this at the top of your JavaScript file:
 const TwitchIO = require("twitchio-js");
 // or
-import TwitchIO from "twitchio-js")
+import TwitchIO from "twitchio-js"
 ```
    **Step 2**: Use any of the commands explained the [Documentation](https://github.com/GypsyDangerous/twitchio-js/blob/master/DOCUMENTATION.md) to interact with twitch services however you like.
 
