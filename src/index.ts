@@ -118,12 +118,12 @@ class TwitchApi {
 		return response.data[0];
 	}
 
-	async getUserInfo(username: string) {
+	async getUserInfo(username: string, forceUsername?:boolean) {
 		if (this.isUnAuthenticated) {
 			throw new Error("Missing either your clientId or Authorization Key");
 		}
 		let key = "login";
-		if (username.replace(/\d/g, "") === "") key = "id";
+		if (username.replace(/\d/g, "") === "" && !forceUsername) key = "id";
 		const apiURL = `https://api.twitch.tv/helix/users?${key}=${username}`;
 		const response = await this.fetch(apiURL);
 		return response.data[0];
