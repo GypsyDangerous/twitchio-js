@@ -52,7 +52,7 @@ class TwitchApi {
 	get kraken() : boolean{
 		return this._kraken;
 	}
-	set kraken(kraken:boolean) {
+	set kraken(kraken: boolean) {
 		this._kraken = kraken
 	}
 
@@ -259,7 +259,7 @@ class TwitchApi {
 		return userInfo;
 	}
 
-	async krakenGetUserEmotes(user_id: string, kraken: boolean) {
+	async krakenGetUserEmotes(user_id: string, kraken?: boolean) {
 		if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
@@ -271,7 +271,7 @@ class TwitchApi {
 		}
 	}
 
-	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions) : Promise<userFollows> {
+	async krakenGetUserFollows(user_id: string, options: followsOptions, kraken?: boolean) : Promise<userFollows> {
         if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
