@@ -1,8 +1,8 @@
 import fetch from "fetchio-js";
 
 interface TwitchApiOptions {
-	clientId: string;
-	authorizationKey: string;
+	clientId?: string;
+	authorizationKey?: string;
 	clientSecret?: string;
 	kraken?: boolean;
 }
@@ -25,8 +25,8 @@ interface FFZEmote {
 }
 
 class TwitchApi {
-	private _clientId: string;
-	private _authorizationKey: string;
+	private _clientId?: string;
+	private _authorizationKey?: string;
 	private _clientSecret?: string;
 	private _kraken: boolean;
 
