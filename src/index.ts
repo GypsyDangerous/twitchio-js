@@ -1,4 +1,4 @@
-import fetch from "simple-better-fetch";
+import fetch from "fetchio-js";
 
 interface TwitchApiOptions {
 	clientId?: string;
