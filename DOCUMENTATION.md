@@ -1,8 +1,10 @@
 # Documentation
+## Table of Contents
+[Basic Usage](# basic usage)
+
 ## basic usage
 
 ```js
-
 const TwitchIO = require('twitchio-js');
 
 const TwitchApi = new TwitchIO({
@@ -41,6 +43,9 @@ const userInfo = await AuthenticatedApiHelper.getUserInfo("codinggarden");
 
 // get user info by id
 const userInfo = await AuthenticatedApiHelper.getUserInfo("413856795");
+
+// force the function to use username
+const userInfo = await AuthenticatedApiHelper.getUserInfo("413856795", true);
 ```
 
 ### get user info from kraken
@@ -55,15 +60,16 @@ const channelBadges = await AuthenticatedApiHelper.getBadgesByUsername("instaflu
 
 ### refresh a refresh token
 
-1. #### set the client secret on the helper
+#### option 1: set the client secret on the helper
 
 ```js
+// make a copy of the api helper to put the client secret on, this is not necessary but recommended
 const copiedAuthenticatedApiHelper = AuthenticatedApiHelper.copy;
 copiedAuthenticatedApiHelper.clientSecret = process.env.client_secret;
 const refreshData = await copiedAuthenticatedApiHelper.refreshToken("refresh token");
 ```
 
-2. #### input the client secret in the function call
+#### option 2: input the client secret in the function call
 
 ```js
 const refreshData = await AuthenticatedApiHelper.refreshToken("refresh token", process.env.client_secret);
