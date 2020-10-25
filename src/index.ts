@@ -25,44 +25,61 @@ interface FFZEmote {
 }
 
 class TwitchApi {
-	private clientId?: string;
-	private authorizationKey?: string;
-	private clientSecret?: string;
-	private kraken: boolean;
-	constructor(private options: TwitchApiOptions) {
+	private _clientId?: string;
+	private _authorizationKey?: string;
+	private _clientSecret?: string;
+	private _kraken: boolean;
+
+	constructor(options: TwitchApiOptions) {
 		if (!options) {
 			throw new Error("missing options");
 		}
-		this.clientId = options.clientId;
-		this.authorizationKey = options.authorizationKey;
-		this.clientSecret = options.clientSecret;
-		this.kraken = !!options.kraken;
+		this._clientId = options.clientId;
+		this._authorizationKey = options.authorizationKey;
+		this._clientSecret = options.clientSecret;
+		this._kraken = !!options.kraken;
+	}
+
+	get clientId() : string | undefined {
+		return this._clientId;
+	}
+	get authorizationKey() : string | undefined {
+		return this._authorizationKey;
+	}
+	get clientSecret() : string | undefined {
+		return this._clientId;
+	}
+	get kraken() : boolean{
+		return this._kraken;
+	}
+	set kraken(kraken:boolean) {
+		this._kraken = kraken
 	}
 
 	get isUnAuthenticated() {
-		return this.clientId == undefined || this.authorizationKey == undefined;
+		return this._clientId == undefined || this._authorizationKey == undefined;
 	}
 
 	get copy() {
 		return new TwitchApi({
-			clientId: this.clientId,
-			authorizationKey: this.authorizationKey,
-			clientSecret: this.clientSecret,
-			kraken: this.kraken,
+			clientId: this._clientId,
+			authorizationKey: this._authorizationKey,
+			clientSecret: this._clientSecret,
+			kraken: this._kraken,
 		});
 	}
 
 	async fetch(url: string, fetchOptions?: FetchOptions) {
 		if (!fetchOptions) fetchOptions = {};
 		const { method, body, headers, kraken } = fetchOptions;
-		const isKrakenGet = this.kraken || kraken;
+		const isKrakenGet = this._kraken || kraken;
 		const options =
 			method === "POST"
 				? {
 						method: method || "GET",
 						headers: {
-							"Client-ID": this.clientId || "",
-							Authorization: `${isKrakenGet ? "OAuth" : "Bearer"} ${this.authorizationKey}`,
+							"Client-ID": this._clientId || "",
+							Authorization: `${isKrakenGet ? "OAuth" : "Bearer"} ${this._authorizationKey}`,
 							...(headers || {}),
 							...(isKrakenGet ? { Accept: "application/vnd.twitchtv.v5+json" } : {}),
 						},
@@ -71,8 +88,8 @@ class TwitchApi {
 				: {
 						method: method || "GET",
 						headers: {
-							"Client-ID": this.clientId || "",
-							Authorization: `${isKrakenGet ? "OAuth" : "Bearer"} ${this.authorizationKey}`,
+							"Client-ID": this._clientId || "",
+							Authorization: `${isKrakenGet ? "OAuth" : "Bearer"} ${this._authorizationKey}`,
 							...(headers || {}),
 							...(isKrakenGet ? { Accept: "application/vnd.twitchtv.v5+json" } : {}),
 						},
@@ -147,11 +164,11 @@ class TwitchApi {
 	}
 
 	async refreshToken(refreshToken: string, clientSecret?: string) {
-		if (!this.clientId || (!this.clientSecret && !clientSecret)) {
+		if (!this._clientId || (!this._clientSecret && !clientSecret)) {
 			throw new Error("Missing client id or client secret required to refresh a refresh token");
 		}
-		const apiURL = `https://id.twitch.tv/oauth2/token?client_id=${this.clientId}&client_secret=${
-			this.clientSecret || clientSecret
+		const apiURL = `https://id.twitch.tv/oauth2/token?client_id=${this._clientId}&client_secret=${
+			this._clientSecret || clientSecret
 		}&grant_type=refresh_token&refresh_token=${refreshToken}`;
 		return await this.fetch(apiURL, { method: "POST" });
 	}
@@ -208,7 +225,7 @@ class TwitchApi {
 
 	// Kraken functions
 	async krakenGetUserById(user_id: string, kraken?: boolean) {
-		if (!kraken && !this.kraken) {
+		if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
 		const userInfo = await this.fetch(`https://api.twitch.tv/kraken/users/${user_id}`, { kraken: kraken });
@@ -216,7 +233,7 @@ class TwitchApi {
 	}
 
 	async krakenGetUserEmotes(user_id: string, kraken: boolean) {
-		if (!kraken && !this.kraken) {
+		if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
 		const emotes = await this.fetch(`https://api.twitch.tv/kraken/users/${user_id}/emotes`, { kraken: kraken });
@@ -228,7 +245,7 @@ class TwitchApi {
 	}
 
 	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions) : Promise<userFollows> {
-        if (!kraken && !this.kraken) {
+        if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
         const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : ""
@@ -242,7 +259,7 @@ class TwitchApi {
     }
     
     async krakenFollowChannel(following_user: string, channel_to_follow: string, kraken?: boolean){
-        if (!kraken && !this.kraken) {
+        if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
         const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_follow}`
@@ -250,7 +267,7 @@ class TwitchApi {
     }
 
     async krakenUnFollowChannel(following_user: string, channel_to_unfollow: string, kraken?: boolean){
-        if (!kraken && !this.kraken) {
+        if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
         const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_unfollow}`
@@ -258,7 +275,7 @@ class TwitchApi {
     }
 
     async krakenGetUserBlockList(user_id: string, kraken?: boolean){
-        if (!kraken && !this.kraken) {
+        if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
         }
         
