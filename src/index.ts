@@ -40,20 +40,20 @@ class TwitchApi {
 		this._kraken = !!options.kraken;
 	}
 
-	get clientId() : string | undefined {
+	get clientId(): string | undefined {
 		return this._clientId;
 	}
-	get authorizationKey() : string | undefined {
+	get authorizationKey(): string | undefined {
 		return this._authorizationKey;
 	}
-	get clientSecret() : string | undefined {
+	get clientSecret(): string | undefined {
 		return this._clientId;
 	}
-	get kraken() : boolean{
+	get kraken(): boolean {
 		return this._kraken;
 	}
-	set kraken(kraken:boolean) {
-		this._kraken = kraken
+	set kraken(kraken: boolean) {
+		this._kraken = kraken;
 	}
 
 	get isUnAuthenticated() {
@@ -135,7 +135,7 @@ class TwitchApi {
 		return response.data[0];
 	}
 
-	async getUserInfo(username: string, forceUsername?:boolean) {
+	async getUserInfo(username: string, forceUsername?: boolean) {
 		if (this.isUnAuthenticated) {
 			throw new Error("Missing either your clientId or Authorization Key");
 		}
@@ -255,6 +255,9 @@ class TwitchApi {
 		if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
+		if (this.isUnAuthenticated) {
+			throw new Error("Missing either your clientId or Authorization Key");
+		}
 		const userInfo = await this.fetch(`https://api.twitch.tv/kraken/users/${user_id}`, { kraken: kraken });
 		return userInfo;
 	}
@@ -262,6 +265,9 @@ class TwitchApi {
 	async krakenGetUserEmotes(user_id: string, kraken: boolean) {
 		if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		if (this.isUnAuthenticated) {
+			throw new Error("Missing either your clientId or Authorization Key");
 		}
 		const emotes = await this.fetch(`https://api.twitch.tv/kraken/users/${user_id}/emotes`, { kraken: kraken });
 		if (emotes) {
@@ -271,53 +277,157 @@ class TwitchApi {
 		}
 	}
 
-	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions) : Promise<userFollows> {
-        if (!kraken && !this._kraken) {
+	async krakenGetUserFollows(user_id: string, kraken: boolean, options: followsOptions): Promise<userFollows> {
+		if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
-        const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : ""
-        const apiURL = `https://api.twitch.tv/kraken/users/${user_id}/follows/channels${urlQuery}`;
-        const follows = await this.fetch(apiURL, { kraken: kraken });
-        return {
-            total: follows["_total"],
-            follows: follows.follows,
-            more: (options.limit || 25) + (options.offset || 0) < follows["_total"]
-        }
-    }
-    
-    async krakenFollowChannel(following_user: string, channel_to_follow: string, kraken?: boolean){
-        if (!kraken && !this._kraken) {
-			throw new Error("Kraken must be enable to access this endpoint");
+		if (this.isUnAuthenticated) {
+			throw new Error("Missing either your clientId or Authorization Key");
 		}
-        const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_follow}`
-        await this.fetch(apiUrl, {kraken: kraken, method: "PUT"})
-    }
+		const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : "";
+		const apiURL = `https://api.twitch.tv/kraken/users/${user_id}/follows/channels${urlQuery}`;
+		const follows = await this.fetch(apiURL, { kraken: kraken });
+		return {
+			total: follows["_total"],
+			follows: follows.follows,
+			more: (options.limit || 25) + (options.offset || 0) < follows["_total"],
+		};
+	}
 
-    async krakenUnFollowChannel(following_user: string, channel_to_unfollow: string, kraken?: boolean){
-        if (!kraken && !this._kraken) {
+	async krakenFollowChannel(following_user: string, channel_to_follow: string, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
 		}
-        const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_unfollow}`
-        await this.fetch(apiUrl, {kraken: kraken, method: "DELETE"})
-    }
+		if (this.isUnAuthenticated) {
+			throw new Error("Missing either your clientId or Authorization Key");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_follow}`;
+		return await this.fetch(apiUrl, { kraken: kraken, method: "PUT" });
+	}
 
-    async krakenGetUserBlockList(user_id: string, kraken?: boolean){
-        if (!kraken && !this._kraken) {
+	async krakenUnFollowChannel(following_user: string, channel_to_unfollow: string, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
 			throw new Error("Kraken must be enable to access this endpoint");
-        }
-        
-    }
+		}
+		if (this.isUnAuthenticated) {
+			throw new Error("Missing either your clientId or Authorization Key");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${following_user}/follows/channels/${channel_to_unfollow}`;
+		return await this.fetch(apiUrl, { kraken: kraken, method: "DELETE" });
+	}
+
+	async krakenGetUserBlockList(user_id: string, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		if (this.isUnAuthenticated) {
+			throw new Error("Missing either your clientId or Authorization Key");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${user_id}/blocks`;
+		return await this.fetch(apiUrl, { kraken: kraken });
+	}
+
+	async krakenBlockUser(blocking_user: string, user_to_block: string, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		if (this.isUnAuthenticated) {
+			throw new Error("Missing either your clientId or Authorization Key");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${blocking_user}/blocks/${user_to_block}`;
+		return await this.fetch(apiUrl, { kraken: kraken, method: "PUT" });
+	}
+
+	async krakenUnblockUser(blocking_user: string, user_to_unblock: string, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		if (this.isUnAuthenticated) {
+			throw new Error("Missing either your clientId or Authorization Key");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/users/${blocking_user}/blocks/${user_to_unblock}`;
+		return await this.fetch(apiUrl, { kraken: kraken, method: "DELETE" });
+	}
+
+	async krakenGetAllTeams(options: BasicOptions, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : "";
+		return this.fetch(`https://api.twitch.tv/kraken/teams${urlQuery}`, { kraken });
+	}
+
+	async krakenGetTeamByName(team_name: string, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		return this.fetch(`https://api.twitch.tv/kraken/teams/${team_name}`, { kraken });
+	}
+
+	async krakenGetStreamByUserId(user_id: string, type?: string, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/streams/${user_id}${type ? `?type=${type}` : ""}`;
+		return await this.fetch(apiUrl, { kraken: kraken });
+	}
+
+	async krakenGetStreams(options: StreamOptions, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : "";
+		return this.fetch(`https://api.twitch.tv/kraken/streams${urlQuery}`, { kraken });
+	}
+
+	async krakenGetStreamsSummary(game?: string, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const apiUrl = `https://api.twitch.tv/kraken/streams/summary${game ? `?game=${game}` : ""}`;
+		return await this.fetch(apiUrl, { kraken: kraken });
+	}
+
+	async krakenGetFeaturedStreams(options?: BasicOptions, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : "";
+		const apiUrl = `https://api.twitch.tv/kraken/streams/featured${urlQuery}`;
+		return await this.fetch(apiUrl, { kraken: kraken });
+	}
+
+	async krakenGetFollowedStreams(options?: StreamOptions, kraken?: boolean) {
+		if (!kraken && !this._kraken) {
+			throw new Error("Kraken must be enable to access this endpoint");
+		}
+		const urlQuery = options ? `?${Object.entries(options).reduce((query, [key, val]) => `${query}&${key}=${val}`, "")}` : "";
+		const apiUrl = `https://api.twitch.tv/kraken/streams/followed${urlQuery}`;
+		return await this.fetch(apiUrl, { kraken: kraken });
+	}
 }
 
-interface userFollows{
-    total: number,
-    follows: any[],
-    more: boolean
-}
-
-interface followsOptions {
-	limit?: number ;
+interface StreamOptions {
+	channel?: string;
+	game?: string;
+	language?: string;
+	stream_type?: string;
+	limit?: number;
 	offset?: number;
+}
+
+interface BasicOptions {
+	limit?: number;
+	offset?: number;
+}
+
+interface userFollows {
+	total: number;
+	follows: any[];
+	more: boolean;
+}
+
+interface followsOptions extends BasicOptions {
 	direction?: "asc" | "desc";
 	sortby?: "created_at" | "last_broadcast" | "login";
 }
