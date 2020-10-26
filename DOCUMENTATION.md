@@ -1,6 +1,20 @@
 # Documentation
 ## Table of Contents
-[Basic Usage](# basic usage)
+- [Basic Usage](#basic-usage)
+- [How to make Kraken requests](#How-to-make-Kraken-requests)
+- [Authenicated Functions](#Functions-that-require-authentication)
+  - [Get Moderators](#get-moderators-for-a-channel)
+  - [Get Helix User Info](#get-user-info-from-helix)
+  - [Get Kraken User Info](#get-user-info-from-kraken)
+  - [Get custom channel badges by username](#get-custom-channel-badges-by-username)
+  - [Refresh a refresh token](#refresh-a-refresh-token)
+  - [Get cheermotes](#get-cheermotes)
+- [Unauthenticaed Functions](#Functions-that-do-not-require-authentication)
+  - [Get custom channel badges by id](#get-channel-badges-by-id)
+  - [Get global badges](#get-global-badges)
+  - [Get bttv emotes](#get-bttv-emotes-for-a-channel-(includes-global-bttv-emotes))
+  - [Get ffz emotes](#get-ffz-emotes-for-a-channel-(includes-global-ffz-emotes))
+  - [Get the channels a user moderates](#get-the-channels-a-user-moderates-for)
 
 ## basic usage
 
@@ -17,6 +31,9 @@ const userInfo = await TwitchApi.getUserInfo("codinggarden")
 // do something with the cheermotes and user info
 
 ```
+
+## How to make Kraken requests
+Since the kraken api is deprecated, it is disabled by default in Twitchio. But since Helix doesn't have all the features of kraken yet you make need to use it. To enable kraken on Twitchio you can either set the `kraken` propery to true `TwitchApi.kraken = true` or pass true as the final argument to any kraken functions.
 
 ## Functions that require authentication
 
@@ -49,8 +66,10 @@ const userInfo = await AuthenticatedApiHelper.getUserInfo("413856795", true);
 ```
 
 ### get user info from kraken
-
-**coming soon**
+see [How to make Kraken requests](#How-to-make-Kraken-requests) for more info about making kraken requests
+```js
+const userInfo = await AuthenticatedApiHelper.krakenGetUserById("413856795")
+```
 
 ### get custom channel badges by username
 
@@ -92,12 +111,13 @@ const TwitchIO = require('twitchio-js');
 
 const UnAuthenticatedApiHelper = new TwitchIO({});
 ```
+
 ### get channel badges by id
 ```js
 const channelBadges = await UnAuthenticatedApiHelper.getBadgesById("413856795");
 ```
 
-### get global message badges
+### get global badges
 ```js
 const globalBadges = await UnAuthenticatedApiHelper.getGlobalBadges()
 ```
@@ -111,6 +131,7 @@ const {bttvEmotes, bttvRegex} = await UnAuthenticatedApiHelper.getBttvEmotes("co
 ```js
 const { ffzEmotes, ffzRegex } = await UnAuthenticatedApiHelper.getFfzEmotes("codinggarden")
 ```
+
 
 ### get the channels a user moderates for
 ```js
